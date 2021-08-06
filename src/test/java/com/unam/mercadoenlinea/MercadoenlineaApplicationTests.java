@@ -1,6 +1,8 @@
 package com.unam.mercadoenlinea;
 
 import com.unam.mercadoenlinea.controller.MercadoEnLineaController;
+import com.unam.mercadoenlinea.dtos.LoginDto;
+import com.unam.mercadoenlinea.dtos.OpinionDto;
 import com.unam.mercadoenlinea.dtos.ProductoDto;
 import com.unam.mercadoenlinea.dtos.UsuarioDto;
 import org.junit.jupiter.api.Test;
@@ -8,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
+
+import java.io.IOException;
 
 @SpringBootTest
 class MercadoenlineaApplicationTests {
@@ -27,10 +32,10 @@ class MercadoenlineaApplicationTests {
 	@Test
 	void registrarPerfilN1() {
 		UsuarioDto usr = new UsuarioDto(
-			"braulio214", "Braulio", "braulio124@gmail.com", "55 2565 4878",
-			true, false, "xdxdxd"
+			"braulio214", "braulio124@gmail.com", "55 2565 4878",
+			true, false
 		);
-		ResponseEntity<?> res = controller.new_user(usr);
+		ResponseEntity<?> res = controller.newUser(usr);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(!code.isError(), "Register failed");
 	}
@@ -38,10 +43,10 @@ class MercadoenlineaApplicationTests {
 	@Test
 	void registrarPerfilA2_1() {
 		UsuarioDto usr = new UsuarioDto(
-				"braulio214", "Braulio", "braulio@gmail.com", "55 256h 4878",
-				true, false, "xdxdxd"
+			"braulio214", "braulio124@gmail.com", "55 256h 4878",
+			true, false
 		);
-		ResponseEntity<?> res = controller.new_user(usr);
+		ResponseEntity<?> res = controller.newUser(usr);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(code.isError(), "Should reject invalid phone");
 	}
@@ -49,10 +54,10 @@ class MercadoenlineaApplicationTests {
 	@Test
 	void registrarPerfilA2_2() {
 		UsuarioDto usr = new UsuarioDto(
-				"braulio214", "Braulio", "braulio@gmail.com", "55 25 4878",
-				true, false, "xdxdxd"
+			"braulio214", "braulio124@gmail.com", "55 25 4878",
+			true, false
 		);
-		ResponseEntity<?> res = controller.new_user(usr);
+		ResponseEntity<?> res = controller.newUser(usr);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(code.isError(), "Should reject invalid phone");
 	}
@@ -62,58 +67,66 @@ class MercadoenlineaApplicationTests {
 
 	@Test
 	void iniciarSesionN1() {
-		// controller.login("erick.erc@ciencias.unam.mx", "Hola123?");
+		LoginDto logdto = new LoginDto("braulio124@gmail.com", "GDAG7JQm0bbptcVn");
+		ResponseEntity<?> res = controller.login(logdto);
+		HttpStatus code = res.getStatusCode();
+		Assert.isTrue(!code.isError(), "Login failed");
 	}
 
 	@Test
 	void iniciarSesionA1() {
-		// ResponseEntity res = controller.login("3rgu3z", "Hola123?");
-		// HttpStatus code = res.getStatusCode();
-		// Assert.isTrue(code.isError());
+		LoginDto logdto = new LoginDto("3rgu3z", "Hola123?");
+		ResponseEntity res = controller.login(logdto);
+		HttpStatus code = res.getStatusCode();
+		Assert.isTrue(code.isError());
 	}
 
 	@Test
 	void iniciarSesionA2() {
-		// ResponseEntity res = controller.login("erick.erc@ciencias.unam.mx",
-		//                                       "Hola345?");
-		// HttpStatus code = res.getStatusCode();
-		// Assert.isTrue(code.isError());
+		LoginDto logdto = new LoginDto("erick.erc@ciencias.unam.mx", "Hola345?");
+		ResponseEntity res = controller.login(logdto);
+		HttpStatus code = res.getStatusCode();
+		Assert.isTrue(code.isError());
 	}
 
 	/* Inicia pruebas de Cerrar Sesión */
-	// TODO logout API
+	// TODO No hay?
 
 
 	/* Inicia pruebas de Crear Producto */
 
 	@Test
-	void crearProductoN1() {
+	void crearProductoN1() throws IOException {
 		ProductoDto prod = new ProductoDto(
-			"Gafas de sol, negras con vidrio protector UV", "Lentes", (byte)0,
-			2000L
+			"Lentes", "Gafas de sol, negras con vidrio protector UV",
+			"https://pngimage.net/wp-content/uploads/2018/06/lentes-negros-png-1.png",
+			2000L, 0L
 		);
-		ResponseEntity<?> res = controller.new_product(prod);
+		ResponseEntity<?> res = controller.newProduct(prod);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(!code.isError(), "New Product Failed");
 	}
 
 	@Test
-	void crearProductoE1() {
+	void crearProductoE1() throws IOException {
 		ProductoDto prod = new ProductoDto(
-				"Gafas de sol, negras con vidrio protector UV", "121212",
-				(byte)0, 2000L
+				"12", "Gafas de sol, negras con vidrio protector UV",
+				"https://pngimage.net/wp-content/uploads/2018/06/lentes-negros-png-1.png",
+				2000L, 0L
 		);
-		ResponseEntity<?> res = controller.new_product(prod);
+		ResponseEntity<?> res = controller.newProduct(prod);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(code.isError(), "Should reject invalid title");
 	}
 
 	@Test
-	void crearProductoE2() {
+	void crearProductoE2() throws IOException {
 		ProductoDto prod = new ProductoDto(
-				"12121212", "Lentes", (byte)0, 2000L
+				"Lentes", "1212",
+				"https://pngimage.net/wp-content/uploads/2018/06/lentes-negros-png-1.png",
+				2000L, 0L
 		);
-		ResponseEntity<?> res = controller.new_product(prod);
+		ResponseEntity<?> res = controller.newProduct(prod);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(code.isError(), "Should reject invalid description");
 	}
@@ -122,16 +135,15 @@ class MercadoenlineaApplicationTests {
 	/* Son las mismas que Crear Producto */
 
 	/* Inicia pruebas de Consultar Producto */
-	// TODO delete API
+	// TODO no hay?
 
 	/* Inicia pruebas de Buscar Producto */
-	// TODO serach API
 
 	@Test
 	void buscarProductoN1() {
-		// ResponseEntity res = controller.search_product("libros")
-		// HttpStatus code = res.getStatusCode();
-		// Assert.isTrue(!code.isError());
+		ResponseEntity res = controller.productByKeywordTitle("Lentes");
+		HttpStatus code = res.getStatusCode();
+		Assert.isTrue(!code.isError(), "Product by keyword failed");
 	}
 
 	/* Inicia pruebas de Revisar Opiniones */
@@ -155,23 +167,9 @@ class MercadoenlineaApplicationTests {
 		// Assert.isTrue(code.isError());
 	}
 
-	/* Inicia pruebas de Calificar Producto */
-	// TODO calificar API
-
-	@Test
-	void calificarProductoN1() {
-		// OpinionDto op = new OpinionDto(
-		// 	"Muy buen producto", "La mesa es muy resistente y de buen material",
-		// 	5
-		// )
-		// ResponseEntity res = controller.new_review(op);
-		// HttpStatus code = res.getStatusCode();
-		// Assert.isTrue(!code.isError());
-	}
 
 	@Test
 	void comprarProductoA5() {
-
 		// OpinionDto op = new OpinionDto(
 		// 	"Muy buen producto", "La mesa es muy resistente y de buen material",
 		// 	10
@@ -179,5 +177,18 @@ class MercadoenlineaApplicationTests {
 		// ResponseEntity res = controller.new_review(op);
 		// HttpStatus code = res.getStatusCode();
 		// Assert.isTrue(code.isError());
+	}
+
+	/* Inicia pruebas de Calificar Producto */
+
+	@Test
+	void calificarProductoN1() throws IOException {
+		OpinionDto op = new OpinionDto(
+				"Muy buen producto", "La mesa es muy resistente y de buen material",
+				5L, 0L
+		);
+		ResponseEntity res = controller.postOpinion(op);
+		HttpStatus code = res.getStatusCode();
+		Assert.isTrue(!code.isError(), "Post opinion failed");
 	}
 }
