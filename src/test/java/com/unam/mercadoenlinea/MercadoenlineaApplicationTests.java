@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @SpringBootTest
@@ -30,7 +31,7 @@ class MercadoenlineaApplicationTests {
 	/* Inicia pruebas de Registrar Perfil */
 
 	@Test
-	void registrarPerfilN1() {
+	void registrarPerfilN1() throws MessagingException {
 		UsuarioDto usr = new UsuarioDto(
 			"braulio214", "braulio124@gmail.com", "55 2565 4878",
 			true, false
@@ -41,7 +42,7 @@ class MercadoenlineaApplicationTests {
 	}
 
 	@Test
-	void registrarPerfilA2_1() {
+	void registrarPerfilA2_1() throws MessagingException {
 		UsuarioDto usr = new UsuarioDto(
 			"braulio214", "braulio124@gmail.com", "55 256h 4878",
 			true, false
@@ -52,7 +53,7 @@ class MercadoenlineaApplicationTests {
 	}
 
 	@Test
-	void registrarPerfilA2_2() {
+	void registrarPerfilA2_2() throws MessagingException {
 		UsuarioDto usr = new UsuarioDto(
 			"braulio214", "braulio124@gmail.com", "55 25 4878",
 			true, false

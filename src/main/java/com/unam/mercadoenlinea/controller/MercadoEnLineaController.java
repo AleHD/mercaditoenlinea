@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RequestMapping("mercado-en-linea/")
@@ -32,7 +33,7 @@ public class MercadoEnLineaController {
 
 	// registro de un usuario
 	@PostMapping("new_user/")
-	public ResponseEntity<?> newUser(@RequestBody UsuarioDto usuarioDto){
+	public ResponseEntity<?> newUser(@RequestBody UsuarioDto usuarioDto) throws MessagingException {
 		return ResponseEntity.ok().body(iUsuarioService.saveUsuario(usuarioDto));
 	}
 

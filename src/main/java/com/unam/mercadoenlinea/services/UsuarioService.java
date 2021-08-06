@@ -4,10 +4,12 @@ import com.unam.mercadoenlinea.dtos.LoginDto;
 import com.unam.mercadoenlinea.dtos.UsuarioDto;
 import com.unam.mercadoenlinea.entities.Usuario;
 import com.unam.mercadoenlinea.repository.IUsuarioRepository;
+import com.unam.mercadoenlinea.utils.EnviadorCorreo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.Optional;
 
 @Service
@@ -16,8 +18,11 @@ public class UsuarioService implements IUsuarioService {
 	IUsuarioRepository usuarioRepository;
 
 	@Override
-	public Boolean saveUsuario(UsuarioDto usuarioDto) throws DataAccessException {
+	public Boolean saveUsuario(UsuarioDto usuarioDto) throws DataAccessException, MessagingException {
 		Usuario usuario = this.dtoToentity(usuarioDto);
+		EnviadorCorreo.sendWelcomeMessage(
+			usuario.getUsername(), usuario.getCorreo(), usuario.getContrasenia()
+		);
 		usuarioRepository.save(usuario);
 		return true;
 	}
