@@ -11,12 +11,12 @@ import java.util.List;
 @Repository
 public interface IProductoRepository extends JpaRepository<Producto, Long> {
 
-	@Query("select p from Producto p where p.usuario.id like :id")
-	List<Producto> findUsuariousuarioid(@Param("id") Long id);
+    @Query("select p from Producto p where p.usuario.id like :id")
+    List<Producto> findUsuariousuarioid(@Param("id") Long id);
 
-	//@Query(value = "SELECT * FROM producto p where p.titulo = :keyword", nativeQuery = true)
-	//@Query(value = "SELECT * FROM producto p where (p.titulo REGEXP ^.*keyword.*$" , nativeQuery = true)
-	//@Query(value = "SELECT * FROM producto p WHERE REGEXP_LIKE (p.titulo, :regExp)", nativeQuery = true)
-	@Query(value = "SELECT * FROM producto p WHERE (p.titulo REGEXP '^.*Barbie.*$'" , nativeQuery = true)
-	List<Producto> findByKeyword(@Param("regExp") String regExp);
+    //@Query(value = "SELECT * FROM producto p where p.titulo = :keyword", nativeQuery = true)
+    //@Query(value = "SELECT * FROM producto p where (p.titulo REGEXP ^.*keyword.*$" , nativeQuery = true)
+    //@Query(value = "SELECT * FROM producto p WHERE REGEXP_LIKE (p.titulo, :regExp)", nativeQuery = true)
+    @Query(value = "SELECT * FROM producto p WHERE (p.titulo REGEXP '^.*Barbie.*$'" , nativeQuery = true)
+    List<Producto> findByKeyword(@Param("regExp") String regExp);
 }
