@@ -5,6 +5,12 @@ import com.unam.mercadoenlinea.dtos.LoginDto;
 import com.unam.mercadoenlinea.dtos.OpinionDto;
 import com.unam.mercadoenlinea.dtos.ProductoDto;
 import com.unam.mercadoenlinea.dtos.UsuarioDto;
+import com.unam.mercadoenlinea.entities.Opinion;
+import com.unam.mercadoenlinea.entities.Producto;
+import com.unam.mercadoenlinea.entities.Usuario;
+import com.unam.mercadoenlinea.repository.IOpinionRepository;
+import com.unam.mercadoenlinea.repository.IProductoRepository;
+import com.unam.mercadoenlinea.repository.IUsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,14 +21,20 @@ import org.springframework.util.Assert;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class MercadoenlineaApplicationTests {
 
-	/* Guardo el controlador y lo hago @Autowired para poderlo usar en las
-	 + pruebas */
 	@Autowired
 	private MercadoEnLineaController controller;
+	@Autowired
+	IUsuarioRepository usuarioRepository;
+	@Autowired
+	IProductoRepository productoRepository;
+	@Autowired
+	IOpinionRepository opinionRepository;
 
 	@Test
 	void contextLoads() {
@@ -39,6 +51,9 @@ class MercadoenlineaApplicationTests {
 		ResponseEntity<?> res = controller.newUser(usr);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(!code.isError(), "Register failed");
+
+		List<Usuario> match = usuarioRepository.findByCorreo(usr.getCorreo());
+		Assert.isTrue(!match.isEmpty(), "Register DB failed");
 	}
 
 	@Test
@@ -64,7 +79,6 @@ class MercadoenlineaApplicationTests {
 	}
 
 	/* Inicia pruebas de Iniciar Sesión */
-	// TODO login API
 
 	@Test
 	void iniciarSesionN1() {
@@ -106,6 +120,9 @@ class MercadoenlineaApplicationTests {
 		ResponseEntity<?> res = controller.newProduct(prod);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(!code.isError(), "New Product Failed");
+
+		List<Producto> match = productoRepository.findByTitulo(prod.getTitulo());
+		Assert.isTrue(!match.isEmpty(), "New Product DB failed");
 	}
 
 	@Test
@@ -186,10 +203,13 @@ class MercadoenlineaApplicationTests {
 	void calificarProductoN1() throws IOException {
 		OpinionDto op = new OpinionDto(
 				"Muy buen producto", "La mesa es muy resistente y de buen material",
-				5L, 0L
+				5L, 1L
 		);
 		ResponseEntity res = controller.postOpinion(op);
 		HttpStatus code = res.getStatusCode();
 		Assert.isTrue(!code.isError(), "Post opinion failed");
+
+		List<Opinion> match = opinionRepository.findByForeignKey(op.getFk());
+		Assert.isTrue(!match.isEmpty(), "New opinion DB failed");
 	}
 }
