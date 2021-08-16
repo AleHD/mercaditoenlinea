@@ -8,6 +8,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IOpinionService {
-	boolean saveOpinion(OpinionDto opinionDto) throws IOException;
-	List<OpinionDto> opinionsById(Long fk);
+    boolean saveOpinion(OpinionDto opinionDto) throws IOException;
+    List<OpinionDto> opinionsById(Long fk);
 }

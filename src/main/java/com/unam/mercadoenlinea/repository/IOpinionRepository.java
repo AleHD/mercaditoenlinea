@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface IOpinionRepository extends JpaRepository<Opinion, Long> {
 
-	@Query("select o from Opinion o where o.producto.id like :fk")
-	List<Opinion> findByForeignKey(@Param("fk") Long fk);
+    @Query("select o from Opinion o where o.producto.id like :fk")
+    List<Opinion> findByForeignKey(@Param("fk") Long fk);
 }
