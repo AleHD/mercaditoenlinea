@@ -19,4 +19,6 @@ public interface IProductoRepository extends JpaRepository<Producto, Long> {
     //@Query(value = "SELECT * FROM producto p WHERE REGEXP_LIKE (p.titulo, :regExp)", nativeQuery = true)
     @Query(value = "SELECT * FROM producto p WHERE (p.titulo REGEXP '^.*Barbie.*$'" , nativeQuery = true)
     List<Producto> findByKeyword(@Param("regExp") String regExp);
+
+    List<Producto> findByTitulo(String titulo);
 }
