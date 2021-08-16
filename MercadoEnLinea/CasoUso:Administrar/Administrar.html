@@ -1,0 +1,12 @@
+<div *ngFor="let producto of productos">
+  <li>
+    <app-producto [producto]=producto [preview]=false></app-producto>
+
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-3" (click)="actualizaProd(producto.id)">Editar</button>
+
+      <button type="button" class="btn btn-primary" (click)="eliminaProd(producto.id)">Eliminar</button>
+    </div>
+
+  </li>
+</div>

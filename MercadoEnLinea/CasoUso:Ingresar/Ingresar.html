@@ -1,0 +1,40 @@
+<form [formGroup]="ingresoForm" class="form" (ngSubmit)="ingreso(ingresoForm.value)">
+
+      <div>
+        <input
+          type="text"
+          id="correo"
+          formControlName="correo"
+          placeholder="Correo eletronico"
+        />
+        <div *ngIf="correo.invalid && correo.touched">
+          <div *ngIf="correo.errors?.required">
+            El campo es obligatorio.
+          </div>
+          <div *ngIf="correo.errors?.email">
+            El formato del correo es inválido.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <input
+        type="password"
+        id="contrasenia"
+        formControlName="contrasenia"
+        placeholder="Contraseña"
+        />
+        <div *ngIf="contrasenia.invalid && contrasenia.touched">
+          <div *ngIf="contrasenia.errors?.required">
+            El campo es obligatorio.
+          </div>
+          <div *ngIf="contrasenia.errors?.pattern">
+            La contraseña deben ser 16 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!ingresoForm.valid">
+        Iniciar Sesión
+      </button>
+    </form>

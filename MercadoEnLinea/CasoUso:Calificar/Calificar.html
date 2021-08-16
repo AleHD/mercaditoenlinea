@@ -1,0 +1,62 @@
+<form [formGroup]="calificacionForm" (ngSubmit)="califica(calificacionForm.value)">
+      <br/>
+
+      <div>
+        <input
+          type="text"
+          id="titulo"
+          formControlName="titulo"
+          placeholder="Titulo"
+        />
+
+        <div *ngIf="titulo.invalid && titulo.touched">
+          <div *ngIf="titulo.errors?.required">
+            El campo es obligatorio.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <textarea
+          type="text"
+          id="descripcion"
+          rows="5"
+          formControlName="descripcion"
+          placeholder="Descripción"
+        ></textarea>
+
+        <div *ngIf="descripcion.invalid && descripcion.touched">
+          <div *ngIf="descripcion.errors?.required">
+            El campo es obligatorio.
+          </div>
+          <br />
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="number"
+          id="calificacion"
+          formControlName="calificacion"
+          min="1"
+          max="5"
+          placeholder="Calificación"
+        />
+
+        <div *ngIf="calificacion.invalid && calificacion.touched">
+          <div *ngIf="calificacion.errors?.required">
+            El campo es obligatorio.
+          </div>
+
+          <div *ngIf="calificacion.errors?.min">
+            El valor mínimo de calificación es 1.
+          </div>
+
+          <div *ngIf="calificacion.errors?.max">
+            El valor máximo de calificación es 5.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="fadeIn fourth" [disabled]="!calificacionForm.valid">Calificar</button>
+    </form>

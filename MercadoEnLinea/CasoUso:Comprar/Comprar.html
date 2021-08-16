@@ -1,0 +1,43 @@
+<form [formGroup]="compraForm" (ngSubmit)="compra()">
+      <div>
+        <input
+          type="text"
+          id="correo"
+          formControlName="correo"
+          placeholder="Correo de Paypal"
+        />
+
+        <div *ngIf="correo.invalid && correo.touched">
+          <div *ngIf="correo.errors?.required">
+            El campo es obligatorio.
+          </div>
+          <div *ngIf="correo.errors?.email">
+            El formato del correo es inválido.
+          </div>
+          <br />
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="password"
+          id="contrasenia"
+          formControlName="contrasenia"
+          placeholder="Contraseña"
+        />
+
+        <div *ngIf="contrasenia.invalid && contrasenia.touched">
+          <div *ngIf="contrasenia.errors?.required">
+            El campos es obligatorio.
+          </div>
+          <div *ngIf="contrasenia.errors?.minlength">
+            La contraseña debe contener al menos 8 caracteres.
+          </div>
+          <div *ngIf="contrasenia.errors?.pattern">
+            La contraseña solo puede contener caracteres alfanuméricos.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="fadeIn third" [disabled]="!compraForm.valid">Comprar</button>
+    </form>

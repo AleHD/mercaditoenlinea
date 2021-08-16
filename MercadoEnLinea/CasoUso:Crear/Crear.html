@@ -1,0 +1,71 @@
+    <form [formGroup]="creacionForm" class="form" (ngSubmit)="guardaProducto(creacionForm.value)">
+      <div>
+        <input
+          type="text"
+          id="titulo"
+          formControlName="titulo"
+          placeholder="Titulo"
+        />
+
+        <div *ngIf="titulo.invalid && titulo.touched">
+          <div *ngIf="titulo.errors?.required">
+            El campo es obligatorio.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <textarea
+          type="text"
+          id="descripcion"
+          rows="10"
+          formControlName="descripcion"
+          placeholder="Descripción"
+        > </textarea>
+
+        <div *ngIf="descripcion.invalid && descripcion.touched">
+          <div *ngIf="descripcion.errors?.required">
+            El campo es obligatorio.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="number"
+          id="precio"
+          formControlName="precio"
+          placeholder="Precio"
+          min="0"
+        />
+
+        <div *ngIf="precio.invalid && precio.touched">
+          <div *ngIf="precio.errors?.required">
+            El campo es obligatorio.
+          </div>
+          <div *ngIf="precio.errors?.min">
+            El precio mínimo del producto es $0.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="text"
+          id="foto"
+          formControlName="foto"
+          placeholder="URL de la foto"
+        />
+
+        <div *ngIf="foto.invalid && foto.touched">
+          <div *ngIf="foto.errors?.required">
+            El campo es obligatorio.
+          </div>
+        </div>
+      </div>
+
+      <div role="group">
+        <button type="submit" [disabled]="!creacionForm.valid">Guardar</button>
+        <button type="button" (click)="regresar()">Cancelar</button>
+      </div>
+    </form>
